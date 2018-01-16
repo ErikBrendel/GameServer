@@ -1,0 +1,74 @@
+@startuml
+skinparam class {
+    'BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+hide class circle
+hide abstract circle
+hide enum circle
+skinparam classAttributeIconSize 0
+
+
+package Client {
+
+    class View {
+        The View is directly connected
+        to the ViewModel (Data-Binding).
+        ---
+    }
+
+    View o-- ViewModel
+
+    class ViewModel {
+        - The direct data of what you see
+        on the screen.
+        - functions that map directly to
+        user events (drawCard / ...)
+        ---
+    }
+}
+
+
+package Server {
+
+    ViewModel <--> ViewModelSocket
+
+    class ViewModelSocket {
+        The interface that the ViewModel
+        gets it's data from (by asking
+        and by being notified).
+        It observes the game and
+        updates the ViewModel.
+        ---
+    }
+
+    ViewModelSocket o-- Player
+
+    class Player {
+        The perspective of one human
+        onto the whole model
+        ---
+    }
+
+    Player o-- Game
+
+    class Game {
+        the autonomous model of the
+        whole game (all players / cards)
+        divided into observable sub-parts
+        ---
+    }
+}
+
+class ViewModelInterface {
+    Object getPresentation(String id) //use rarely
+    void onEvent(EventObject event)
+    ---
+    void update(String dataID, Object newData)
+}
+
+
+
+
+@enduml

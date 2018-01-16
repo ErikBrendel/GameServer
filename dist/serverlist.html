@@ -1,0 +1,146 @@
+<html>
+<head>
+    <title>Game overview</title>
+    <script type="text/javascript" src="bundle/serverlist.js"></script>
+    <style type="text/css">
+        * {
+            font-size: 20px;
+        }
+        .noSelect {
+            /* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting-using-css */
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+        }
+        button {
+            border: 1px solid black;
+            border-radius: 4px;
+            background: transparent;
+            font-weight: bold;
+            height: 38px;
+        }
+        button:disabled {
+            border-color: #777;
+        }
+        button:enabled {
+            cursor: pointer;
+        }
+        .shadowButton {
+            -webkit-transition: box-shadow 0.1s;
+            -moz-transition:    box-shadow 0.1s;
+            transition:         box-shadow 0.1s;
+        }
+        button.shadowButton:hover:enabled {
+            -webkit-box-shadow: 2px 2px 7px 1px rgba(0,0,0,0.6);
+            -moz-box-shadow:    2px 2px 7px 1px rgba(0,0,0,0.6);
+            box-shadow:         2px 2px 7px 1px rgba(0,0,0,0.6);
+        }
+        button.redButton:hover:enabled {
+            color: red;
+        }
+        #newGameButton {
+            text-align: center;
+            width: 100%;
+        }
+        #newGameDescription {
+            width: 100%;
+            display: none;
+        }
+        #statusBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            font-size: 18px;
+            background-color: #999;
+            font-family: Monospaced, monospace;
+            text-align: left;
+        }
+        .pageFullscreen {
+            width: calc(100% - 200px);
+        }
+        table.fixed {
+            table-layout: fixed;
+            overflow: hidden;
+            border: none;
+            border-spacing: 0;
+        }
+        table.fixed th {
+            background-color: #4CAF50;
+        }
+        table.fixed tr {
+            height: 42px;
+        }
+        table.fixed tr.gameRow {
+            cursor: pointer;
+        }
+        table.fixed tr.gameRow:nth-child(2n) {
+            background-color: #f3f3f3;
+        }
+        table.fixed tr.gameRow:hover {
+            background-color: #d0d0d0;
+            border: 1px solid black;
+        }
+        table.fixed tr.gameRow.selected {
+            background-color: #999;
+        }
+        table.fixed tr.gameRow.selected:hover {
+            background-color: #888;
+        }
+
+        table.fixed tr td:nth-child(1),
+        table.fixed tr td:nth-child(2) {
+            text-align: center;
+        }
+        table.fixed tr td:nth-child(3) {
+            padding-left: 30px;
+        }
+        .mainButton:enabled {
+            background-color: #4CAF50;
+        }
+
+
+        @media only screen and (max-width: 920px) {
+            .pageFullscreen {
+                width: 100%;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        SERVER_HOST = window.location.host;
+        SERVER_URL = `http://${SERVER_HOST}/`;
+    </script>
+</head>
+<body>
+    <center class="noSelect">
+
+        <div style="text-align: left" class="pageFullscreen">
+            Host to join: <input type="text" id="host" /><br>
+            Your name: <input type="text" id="username" /><br>
+            AutoDone&trade; - Timeout: <input type="text" id="autodone" value="2000"/> ms<br>
+        </div>
+
+        <br>
+
+        <br>
+
+        <table id="gameTable" border="0" class="fixed pageFullscreen"></table>
+
+        <br><br><br>
+
+        <div>
+            <button id='joinButton' onclick='join()' class="mainButton shadowButton">Join Game</button>
+            <button id='joinTwiceButton' onclick='joinTwice()' class="mainButton shadowButton">Join Game Twice</button>
+        </div>
+
+        <br><br><br>
+
+        <div id="statusBanner">Please enable Javascript!</div>
+    </center>
+</body>
+</html>

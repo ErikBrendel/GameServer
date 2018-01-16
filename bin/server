@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const coffee = require('coffeescript');
+coffee.register();
+require('../src/server/main');
