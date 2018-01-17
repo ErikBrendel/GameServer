@@ -3,11 +3,10 @@
 
 WebSocket = require 'ws'
 
-ViewModel = require './viewModel/ViewModel'
+ViewModel = require './viewModel/ViewModel_Remote'
 ViewModelSocket = require './viewModel/ViewModelSocket'
 
-Game = {}  #TODO
-Player = {} #TODO
+Game = require './Game'
 
 class MatchMaker
   constructor: ->
@@ -15,11 +14,9 @@ class MatchMaker
     @gameCounter = 0
     @listSockets = [] # all webSockets that get notified on list change
 
-  createGame: (description) ->
-    @games[++@gameCounter] =
-      game: new Game #TODO
-      players: []
-      description: description
+  createGame: (type, description) ->
+    gameType = findGameType @type #TODO
+    @games[++@gameCounter] = new Game gameType, description
     @updateServerlists()
 
   deleteGame: (gameId) ->
@@ -30,15 +27,7 @@ class MatchMaker
 
   joinGame: (gameId, name, ws) ->
     return false unless @games[gameId]?
-    player = new Player name
-    socket = new ViewModelSocket @games[gameId].game, player
-    viewModel = new ViewModel socket, playerId, ws
-    @games[gameId].game.addPlayer player
-    @games[gameId].players.push
-      player: player
-      ws: ws
-      vms: socket
-      vm: viewModel
+    @games[gameId].join name, ws
     @updateServerlists()
     return JSON.stringify
       type: 'joinSuccess'

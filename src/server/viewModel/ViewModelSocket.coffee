@@ -1,18 +1,14 @@
 # This is the door for the ViewModel to access all the Model-Information
 # it is allowed to access.
+# Presenter and eventHandler should already be connected to everything
+# An eventHandler should implement onEvent(event)
+# The presenter should have getInitialDataIds() and getPresentation(dataId)
 
-Presenter = require './Presenter'
-EventHandler = require './EventHandler'
 
 class ViewModelSocket
-  constructor: (@game, @player) ->
-    @presenter = new Presenter @game, @player
-    @eventHandler = new EventHandler @game, @player
+  constructor: (@game, @player, @presenter, @eventHandler) ->
     @clients = []
     @game.attachObserver @, 'gameStart', 'started'
-
-  connectToEverything: ->
-    #TODO
 
   update: (notification, aspect, data) ->
     if notification is 'gameStart'
@@ -30,7 +26,7 @@ class ViewModelSocket
     @player.setReady()
 
   launchGame: ->
-    console.log 'LAUNCHING GAME...'
+    console.log 'Launching a game...'
     @connectToEverything()
     @sendUpdateToClients id for id in @presenter.getInitialDataIds()
 
