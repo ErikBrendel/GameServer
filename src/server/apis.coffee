@@ -1,5 +1,6 @@
 
 MatchMaker = require './MatchMaker'
+optionList = require '../shared/util/OptionList'
 
 matchMaker = new MatchMaker
 
@@ -10,15 +11,19 @@ apis.serverlist = (ws) ->
   matchMaker.addListSocket ws
   console.log 'New Serverlist - client'
   sendError = (msg) -> ws.send JSON.stringify type: 'error', msg: msg
+
+  messageHandler = optionList
+    deleteGame: (msg) ->
+      gameToDelete = parseInt msg.gameId
+      if isNaN(gameToDelete) or not matchMaker.deleteGame gameToDelete
+        sendError "Error deleting game '#{gameToDelete}'"
+    createGame: (msg) -> matchMaker.createGame msg.description
+    listGameTypes: -> ws.send JSON.stringify type: 'listGameTypes', types: ['fooGame']
+  , (msg) -> sendError "Unknown command: #{msg.type}"
+
   ws.on 'message', (message) ->
     msg = JSON.parse message
-    switch msg.type
-      when 'deleteGame'
-        gameToDelete = parseInt msg.gameId
-        if isNaN(gameToDelete) or not matchMaker.deleteGame gameToDelete
-          sendError "Error deleting game '#{gameToDelete}'"
-      when 'createGame' then matchMaker.createGame msg.description
-      else sendError "Unknown command: #{msg.type}"
+    messageHandler[msg.type](msg)
 
 apis.join = (ws) ->
   ws.on 'message', (message) ->

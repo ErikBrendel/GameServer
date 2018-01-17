@@ -2,25 +2,23 @@ http = require 'http'
 WebSocket = require 'ws'
 url = require 'url'
 webpack = require './webpack'
+optionList = require '../shared/util/OptionList'
 
 app = require './app'
-apis = require './apis'
-
 server = http.createServer app
 wss = new WebSocket.Server {server}
 
+apis = optionList require('./apis'), (ws) ->
+  console.log "Received unknown ws request: #{location}"
+  ws.send "BAD REQUEST: No API endpoint named #{location}"
+
 wss.on 'connection', (ws, req) ->
   location = url.parse(req.url, true).path.substr 1
+  apis[location] ws
 
-  api = apis[location]
-  if api?
-    api ws
-  else
-    console.log "Received unknown ws request: #{location}"
-    ws.send "BAD REQUEST: No API endpoint named #{location}"
 
 server.listen process.env.PORT || 3000
 server.on 'error', (err) ->
   console.error err.code
-server.on 'listening', () ->
+server.on 'listening', ->
   console.info 'listening'
