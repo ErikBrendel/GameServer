@@ -59,8 +59,12 @@ updateList = (list) ->
     tableContent += "<td><button onclick='return deleteGame(#{game.id}, event)' style='width: 100%' class='redButton'>X</button></td>"
     tableContent += '</tr>'
   tableContent += "<tr><td colspan='4'>
-                        <button id='newGameButton' onclick='tryCreateGame()' class='redButton'>Create a new Game</button>
-                        <form onsubmit='return createGame()' style='margin: 0'><input id='newGameDescription' type='text'></form>
+                      <button id='newGameButton' onclick='tryCreateGame()' class='redButton'>Create a new Game</button>
+                      <form onsubmit='return createGame()' style='margin: 0'>
+                        <select name='gameType'>
+                        </select>
+                        <input id='newGameDescription' type='text'>
+                      </form>
                    </td></tr>"
   document.getElementById('gameTable').innerHTML = tableContent
 
