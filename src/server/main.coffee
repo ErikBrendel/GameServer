@@ -17,7 +17,7 @@ wss.on 'connection', (ws, req) ->
   apis[location] ws
 
 
-server.listen process.env.PORT || 3000
+server.listen process.env.PORT || 3001
 server.on 'error', (err) ->
   console.error err.code
 server.on 'listening', ->

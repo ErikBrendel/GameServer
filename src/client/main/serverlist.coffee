@@ -1,5 +1,6 @@
 ws = undefined
 lastData = []
+gameTypes = [{id: 'test/void', name: 'Void Game'}]
 
 getHost = -> document.getElementById("host").value
 getUsername = -> document.getElementById("username").value
@@ -62,6 +63,7 @@ updateList = (list) ->
                       <button id='newGameButton' onclick='tryCreateGame()' class='redButton'>Create a new Game</button>
                       <form onsubmit='return createGame()' style='margin: 0'>
                         <select name='gameType'>
+                          #{"<option value='#{type.id}'>#{type.name}</option>" for type in gameTypes}
                         </select>
                         <input id='newGameDescription' type='text'>
                       </form>
