@@ -1,7 +1,7 @@
 path = require 'path'
 webpack = require 'webpack'
 
-production = process.env.NODE_DEV is 'production'
+production = process.env.NODE_ENV is 'production'
 
 if production
   console.log 'Running in production mode. Generating minimized files.\n'
