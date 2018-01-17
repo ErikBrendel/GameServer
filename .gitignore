@@ -194,7 +194,6 @@ $RECYCLE.BIN/
 
 #additional excludes
 .idea/
-package-lock.json
 src/client/public/js/bundle
 dist/bundle/
 *.blend1
