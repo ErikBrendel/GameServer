@@ -1,8 +1,6 @@
 # This class creates the presentation objects for
 # Model classes
 
-Card = require '../magic/Card'
-
 class Presenter
   constructor: (@game, @player) ->
 
