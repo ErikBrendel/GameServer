@@ -6,7 +6,6 @@ https = require 'https'
 MatchMaker = require './MatchMaker'
 
 matchMaker = new MatchMaker
-matchMaker.createGame 'auto-generated game'
 
 app = express()
 
@@ -26,15 +25,6 @@ port = process.env.PORT || 3000
 #
 
 
-app.get '/createNewGame.html', (req, res) ->
-  matchMaker.createGame()
-  res.send 'ok'
-
-app.post '/deleteGame.html', (req, res) ->
-  matchMaker.deleteGame req.body.gameId
-  res.send 'ok'
-
-
 # matchmaking server list
 app.get '/', (req, res) ->
   res.sendFile 'serverlist.html', { root: path.join(__dirname, '../../dist/') }
@@ -43,7 +33,34 @@ app.get '/', (req, res) ->
 # all other static files
 app.use express.static path.join __dirname, '../../dist'
 
+
+apis = {}
+
+apis.serverlist = (ws) ->
+  matchMaker.addListSocket ws
+  console.log 'New Serverlist - client'
+  sendError = (msg) -> ws.send JSON.stringify type: 'error', msg: msg
+  ws.on 'message', (message) ->
+    msg = JSON.parse message
+    switch msg.type
+      when 'deleteGame'
+        gameToDelete = parseInt msg.gameId
+        if isNaN(gameToDelete) or not matchMaker.deleteGame gameToDelete
+          sendError "Error deleting game '#{gameToDelete}'"
+      when 'createGame' then matchMaker.createGame msg.description
+      else sendError "Unknown command: #{msg.type}"
+
+apis.join = (ws) ->
+  ws.on 'message', (message) ->
+    msg = JSON.parse message
+    if msg.request is 'join'
+      ws.send matchMaker.joinGame msg.gameId, msg.playerName, ws
+    else
+      ws.foo message
+
+
 module.exports =
   app: app
   matchMaker: matchMaker
+  apis: apis
   port: port

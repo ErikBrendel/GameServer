@@ -10,11 +10,8 @@ else
 
 config =
   entry:
-    demo: 'main/magicCardsDemoMain'
-    threeDemo: 'main/threeDemo'
-    magicReplDemo: 'main/magicReplDemo'
-    view3D: 'main/view3D'
-    viewless: 'main/viewless'
+    demo: 'main/demoMain'
+    serverlist: 'main/serverlist'
   output:
     path: path.resolve('dist/bundle')
     publicPath: '/bundle/'
