@@ -25,14 +25,26 @@ module.exports = (matchMaker) ->
 
     res.header 'Content-Type', 'text/html'
     res.send "<html><head>
-                <title>#{game.gameType.name} - #{game.description}</title>
+                <title>[GameServer] #{game.gameType.name} - #{game.description}</title>
                 <script type='text/javascript' src='/gameView/#{game.gameTypeName}.js'></script>
               </head></html>"
 
 
   app.get '/gameView/:gamePackage/:gameName.js', (req, res) ->
     gameTypeName = "#{req.params.gamePackage}/#{req.params.gameName}"
-    res.send "alert('JS file of #{gameTypeName} is there!');"
+    #TODO on the fly coffee compilation?
+    res.send "window.onload = () => document.body.innerHTML = '<b>JS file of #{gameTypeName} is there!</b>';"
+
+
+  app.get '/play_double/:gameId.html', (req, res) ->
+
+    link = "/play/#{req.params.gameId}.html?#{req.url.split('?')[1]}"
+    content = '<html><head><title>[GameServer] SplitScreen</title></head>' +
+      '<frameset rows="50%,50%" border="0">' +
+      "    <frame src='#{link}_top'>" +
+      "    <frame src='#{link}_bottom'>" +
+      '</frameset></html>'
+    res.send content
 
 
 
