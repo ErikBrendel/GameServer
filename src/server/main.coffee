@@ -4,11 +4,17 @@ url = require 'url'
 webpack = require './webpack'
 optionList = require '../shared/util/OptionList'
 
-app = require './app'
+
+MatchMaker = require './MatchMaker'
+matchMaker = new MatchMaker
+
+
+app = require('./app') matchMaker
 server = http.createServer app
 wss = new WebSocket.Server {server}
 
-apis = optionList require('./apis'), (ws) ->
+rawApis = require('./apis') matchMaker
+apis = optionList rawApis, (ws) ->
   console.log "Received unknown ws request: #{location}"
   ws.send "BAD REQUEST: No API endpoint named #{location}"
 

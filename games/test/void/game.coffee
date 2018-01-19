@@ -1,9 +1,9 @@
 class VoidPresenter
   constructor: (@game, @player) ->
 
-  getInitialDataIds: -> []
+  getInitialDataIds: -> ['fooString', 'barString']
 
-  getPresentation: (dataId) -> "Data#{dataId}"
+  getPresentation: (dataId) -> "Data_#{dataId}"
 
 
 class VoidEventHandler

@@ -133,8 +133,8 @@ window.createGame = ->
 
 window.join = (twice = false) ->
   return unless selectedGameId?
-  options = "?gameId=#{selectedGameId}&url=#{getHost()}&username=#{getUsername()}"
-  url = (if twice then 'doubleView3D' else 'view3D') + '.html' + options
+  options = "gameId=#{selectedGameId}&url=#{getHost()}&username=#{getUsername()}"
+  url = "play#{if twice then '_double' else ''}/#{selectedGameId}.html?#{options}"
   gameWindow = window.open url, '_blank'
   gameWindow.focus()
 

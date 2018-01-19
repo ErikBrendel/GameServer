@@ -4,7 +4,7 @@ ViewModel_Remote = require './viewModel/ViewModel_Remote'
 ViewModelSocket = require './viewModel/ViewModelSocket'
 
 class Game
-  constructor: (@gameType, @description) ->
+  constructor: (@gameTypeName, @gameType, @description) ->
     @players = []
     @game = @gameType.newInstance()
 

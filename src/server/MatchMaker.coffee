@@ -14,7 +14,7 @@ class MatchMaker
 
   createGame: (type, description) ->
     gameType = findGameType type #TODO
-    @games[++@gameCounter] = new Game gameType, description
+    @games[++@gameCounter] = new Game type, gameType, description
     @updateServerlists()
 
   deleteGame: (gameId) ->
