@@ -1,4 +1,4 @@
-# A generic Game Object, that holds the concrete instance
+# A generic running Game Object, that holds the concrete instance
 
 ViewModel_Remote = require './viewModel/ViewModel_Remote'
 ViewModelSocket = require './viewModel/ViewModelSocket'
@@ -21,3 +21,5 @@ class Game
       vms: socket
       vm: viewModel
     @game.addPlayer playerName
+
+module.exports = Game

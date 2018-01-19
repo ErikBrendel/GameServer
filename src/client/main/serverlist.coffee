@@ -62,10 +62,11 @@ updateList = (list) ->
   tableContent += "<tr><td colspan='4'>
                       <button id='newGameButton' onclick='tryCreateGame()' class='redButton'>Create a new Game</button>
                       <form onsubmit='return createGame()' style='margin: 0'>
-                        <select name='gameType'>
+                        <select name='newGameType'>
                           #{"<option value='#{type.id}'>#{type.name}</option>" for type in gameTypes}
                         </select>
                         <input id='newGameDescription' type='text'>
+                        <input id='newGameSubmit' type='submit'value='Create'>
                       </form>
                    </td></tr>"
   document.getElementById('gameTable').innerHTML = tableContent
@@ -110,12 +111,12 @@ window.tryCreateGame = ->
   document.getElementById('newGameButton').style.display = 'none'
   input = document.getElementById('newGameDescription')
   input.value = randomDescription()
-  input.style.display = 'block'
+  input.style.display = 'inline'
   input.focus()
   input.select()
 
 window.createGame = ->
-  document.getElementById('newGameButton').style.display = 'block'
+  document.getElementById('newGameButton').style.display = 'inline'
   input = document.getElementById('newGameDescription')
   input.style.display = 'none'
   description = input.value
@@ -124,6 +125,7 @@ window.createGame = ->
     await ensureConnected()
     ws.send JSON.stringify
       type: 'createGame'
+      gameType: 'test/void'
       description: description
   ), 0
   return false

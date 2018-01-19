@@ -17,7 +17,7 @@ apis.serverlist = (ws) ->
       gameToDelete = parseInt msg.gameId
       if isNaN(gameToDelete) or not matchMaker.deleteGame gameToDelete
         sendError "Error deleting game '#{gameToDelete}'"
-    createGame: (msg) -> matchMaker.createGame msg.description
+    createGame: (msg) -> matchMaker.createGame msg.gameType, msg.description
     listGameTypes: -> ws.send JSON.stringify type: 'listGameTypes', types: ['test/void']
   , (msg) -> sendError "Unknown command: #{msg.type}"
 

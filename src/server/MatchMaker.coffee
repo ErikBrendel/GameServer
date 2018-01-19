@@ -3,10 +3,8 @@
 
 WebSocket = require 'ws'
 
-ViewModel = require './viewModel/ViewModel_Remote'
-ViewModelSocket = require './viewModel/ViewModelSocket'
-
 Game = require './Game'
+findGameType = require './GameRegistry'
 
 class MatchMaker
   constructor: ->
@@ -15,7 +13,7 @@ class MatchMaker
     @listSockets = [] # all webSockets that get notified on list change
 
   createGame: (type, description) ->
-    gameType = findGameType @type #TODO
+    gameType = findGameType type #TODO
     @games[++@gameCounter] = new Game gameType, description
     @updateServerlists()
 

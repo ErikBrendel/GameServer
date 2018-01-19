@@ -16,9 +16,9 @@ wss.on 'connection', (ws, req) ->
   location = url.parse(req.url, true).path.substr 1
   apis[location] ws
 
-
-server.listen process.env.PORT || 3001
+port = process.env.PORT || 3000
+server.listen port
 server.on 'error', (err) ->
   console.error err.code
 server.on 'listening', ->
-  console.info 'listening'
+  console.info "listening on port #{port}"
