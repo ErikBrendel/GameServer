@@ -4,7 +4,7 @@ GameRegistry = require './GameRegistry'
 
 
 # adding games to webpack
-for gameTypeName in GameRegistry.findAllGameIds()
+for gameTypeName in GameRegistry.allGameTypeNames()
   config.entry["gameView/#{gameTypeName}"] = "#{gameTypeName}/view.coffee"
 
 compiler = webpack config

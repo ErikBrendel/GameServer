@@ -28,3 +28,9 @@ server.on 'error', (err) ->
   console.error err.code
 server.on 'listening', ->
   console.info "listening on port #{port}"
+
+GameRegistry = require './GameRegistry'
+games = GameRegistry.allGameTypeNames()
+console.log "\n\nFound #{games.length} game(s):"
+console.log "> #{typeName}" for typeName in games
+console.log '\n'

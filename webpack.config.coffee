@@ -12,7 +12,6 @@ else
 
 config =
   entry:
-    demo: 'main/demoMain'
     serverlist: 'main/serverlist'
   output:
     path: path.resolve('dist/bundle')
