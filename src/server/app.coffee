@@ -2,7 +2,8 @@ express = require 'express'
 path = require 'path'
 http = require 'http'
 https = require 'https'
-
+coffee = require 'coffeescript'
+fs = require 'fs'
 
 module.exports = (matchMaker) ->
 
@@ -32,8 +33,11 @@ module.exports = (matchMaker) ->
 
   app.get '/gameView/:gamePackage/:gameName.js', (req, res) ->
     gameTypeName = "#{req.params.gamePackage}/#{req.params.gameName}"
-    #TODO on the fly coffee compilation?
-    res.send "window.onload = () => document.body.innerHTML = '<b>JS file of #{gameTypeName} is there!</b>';"
+
+    res.header 'Content-Type', 'application/x-javascript'
+    cs = fs.readFileSync "#{__dirname}/../../games/#{gameTypeName}/sdview.coffee", "utf-8"
+    js = coffee.compile cs
+    res.send js
 
 
   app.get '/play_double/:gameId.html', (req, res) ->
