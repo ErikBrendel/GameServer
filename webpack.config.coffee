@@ -1,5 +1,7 @@
 path = require 'path'
 webpack = require 'webpack'
+Uglify = require 'uglifyjs-webpack-plugin'
+
 
 production = process.env.NODE_ENV is 'production'
 
@@ -41,16 +43,13 @@ config =
       path.resolve('node_modules')
       path.resolve('src/shared')
       path.resolve('src/client')
-      path.resolve('data')
+      path.resolve('games')
     ]
   devtool: 'source-map' if not production,
   plugins: []
 
 if production
-  config.plugins.push new webpack.optimize.UglifyJsPlugin
-    compress: true
-    mangle: true
-    comments: false
+  config.plugins.push new Uglify
     sourceMap: false
 
 module.exports = config

@@ -27,17 +27,8 @@ module.exports = (matchMaker) ->
     res.header 'Content-Type', 'text/html'
     res.send "<html><head>
                 <title>[GameServer] #{game.gameType.name} - #{game.description}</title>
-                <script type='text/javascript' src='/gameView/#{game.gameTypeName}.js'></script>
+                <script type='text/javascript' src='/bundle/gameView/#{game.gameTypeName}.js'></script>
               </head></html>"
-
-
-  app.get '/gameView/:gamePackage/:gameName.js', (req, res) ->
-    gameTypeName = "#{req.params.gamePackage}/#{req.params.gameName}"
-
-    res.header 'Content-Type', 'application/x-javascript'
-    cs = fs.readFileSync "#{__dirname}/../../games/#{gameTypeName}/sdview.coffee", "utf-8"
-    js = coffee.compile cs
-    res.send js
 
 
   app.get '/play_double/:gameId.html', (req, res) ->

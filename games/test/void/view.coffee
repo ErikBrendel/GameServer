@@ -1,2 +1,4 @@
+res = require './client/resources'
+
 window.onload = ->
-  document.body.innerHTML = '<b>This is test/void/view.coffee!</b>'
+  document.body.innerHTML = "<b>Res file says: #{res.greeting}</b>"

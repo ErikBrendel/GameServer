@@ -4,7 +4,7 @@
 WebSocket = require 'ws'
 
 Game = require './Game'
-findGameType = require './GameRegistry'
+GameRegistry = require './GameRegistry'
 
 class MatchMaker
   constructor: ->
@@ -13,7 +13,7 @@ class MatchMaker
     @listSockets = [] # all webSockets that get notified on list change
 
   createGame: (type, description) ->
-    gameType = findGameType type #TODO
+    gameType = GameRegistry.findGameType type
     @games[++@gameCounter] = new Game type, gameType, description
     @updateServerlists()
 

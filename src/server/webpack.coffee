@@ -1,5 +1,11 @@
 webpack = require 'webpack'
 config = require '../../webpack.config'
+GameRegistry = require './GameRegistry'
+
+
+# adding games to webpack
+for gameTypeName in GameRegistry.findAllGameIds()
+  config.entry["gameView/#{gameTypeName}"] = "#{gameTypeName}/view.coffee"
 
 compiler = webpack config
 

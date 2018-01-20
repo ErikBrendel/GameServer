@@ -13,4 +13,6 @@ findGameType = (type) ->
     loadedGameTypes[type] = gameType
   return loadedGameTypes[type]
 
-module.exports = findGameType
+module.exports =
+  findGameType: findGameType
+  findAllGameIds: findAllGameIds
