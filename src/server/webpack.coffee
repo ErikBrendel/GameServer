@@ -10,7 +10,7 @@ for gameTypeName in GameRegistry.allGameTypeNames()
 compiler = webpack config
 
 watcher = compiler.watch
-  aggregateTimeout: 300,
+  aggregateTimeout: 500,
   (err, stats) ->
     console.log stats.toString
       colors: true

@@ -14,13 +14,13 @@ server = http.createServer app
 wss = new WebSocket.Server {server}
 
 rawApis = require('./apis') matchMaker
-apis = optionList rawApis, (ws) ->
+apis = optionList rawApis, (ws, location) ->
   console.log "Received unknown ws request: #{location}"
   ws.send "BAD REQUEST: No API endpoint named #{location}"
 
 wss.on 'connection', (ws, req) ->
   location = url.parse(req.url, true).path.substr 1
-  apis[location] ws
+  apis[location] ws, location
 
 port = process.env.PORT || 3000
 server.listen port

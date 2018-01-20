@@ -1,10 +1,7 @@
 # An observer that simply executes a callback
 
-Observer = require 'util/Observer'
-
-class CallbackObserver extends Observer
+class CallbackObserver
   constructor: (@callback) ->
-    super()
 
   registerOn: (observable, aspects...) ->
     observable.attachObserver @, @callback, aspects

@@ -1,6 +1,6 @@
 ws = undefined
 lastData = []
-gameTypes = [{id: 'test/void', name: 'Void Game'}]
+gameTypes = [{id: 'test/void', name: 'Void Game'}, {id: 'test/counter', name: 'Counter Game'}]
 
 getHost = -> document.getElementById("host").value
 getUsername = -> document.getElementById("username").value
@@ -62,7 +62,7 @@ updateList = (list) ->
   tableContent += "<tr><td colspan='4'>
                       <button id='newGameButton' onclick='tryCreateGame()' class='redButton'>Create a new Game</button>
                       <form onsubmit='return createGame()' style='margin: 0'>
-                        <select name='newGameType'>
+                        <select id='newGameType'>
                           #{"<option value='#{type.id}'>#{type.name}</option>" for type in gameTypes}
                         </select>
                         <input id='newGameDescription' type='text'>
@@ -118,6 +118,7 @@ window.tryCreateGame = ->
 window.createGame = ->
   document.getElementById('newGameButton').style.display = 'inline'
   input = document.getElementById('newGameDescription')
+  gameSelection = document.getElementById 'newGameType'
   input.style.display = 'none'
   description = input.value
   justCreatedAGame = true
@@ -125,7 +126,7 @@ window.createGame = ->
     await ensureConnected()
     ws.send JSON.stringify
       type: 'createGame'
-      gameType: 'test/void'
+      gameType: gameSelection.value
       description: description
   ), 0
   return false

@@ -2,7 +2,7 @@
 
 class ViewModelSocket
   constructor: (@server, @gameId, username, @setupCallback) ->
-    @ws = new WebSocket "ws://#{@server}"
+    @ws = new WebSocket "ws://#{@server}/join"
     @ws.onmessage = (msg) => @onMessage msg
     @ws.onopen = =>
       @ws.send JSON.stringify
