@@ -1,5 +1,5 @@
 class CounterPlayer
-  constructor (@name, @sign) ->
+  constructor: (@game, @name, @sign) ->
 
   count: ->
     @game.counterValue += @sign

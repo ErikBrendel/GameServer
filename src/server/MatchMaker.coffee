@@ -25,7 +25,7 @@ class MatchMaker
 
   joinGame: (gameId, name, ws) ->
     return false unless @games[gameId]?
-    @games[gameId].join name, ws
+    playerId = @games[gameId].join name, ws
     @updateServerlists()
     return JSON.stringify
       type: 'joinSuccess'

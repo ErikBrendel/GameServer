@@ -6,7 +6,7 @@
 
 
 class ViewModelSocket
-  constructor: (@game, @player, @presenter, @eventHandler) ->
+  constructor: (@game, @presenter, @eventHandler) ->
     @clients = []
     @game.attachObserver @, 'gameStart', 'started'
 
@@ -22,8 +22,8 @@ class ViewModelSocket
     @clients.push newClient if not @clients.includes newClient
     return
 
-  playerReady: ->
-    @player.setReady()
+  playerReady: (playerId) ->
+    @game.playerReady playerId
 
   launchGame: ->
     console.log 'Launching a game...'

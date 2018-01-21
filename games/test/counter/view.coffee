@@ -8,7 +8,7 @@ DomView = require './view/DomView'
 
 # local mvvm setup
 new ViewModelSocket findGetParam('url'), findGetParam('gameId'), findGetParam('username'), (playerId, socket) ->
-  viewModel = new ViewModel socket, playerId
+  viewModel = new ViewModel socket
   window.vm = viewModel
   new DomView viewModel
   socket.readyToPlay()

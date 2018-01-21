@@ -4,12 +4,11 @@
 CallbackObserver = require 'util/CallbackObserver'
 Observable = require 'util/Observable'
 ViewModelStorage = require 'viewModel/ViewModelStorage'
-constants = require 'viewModel/Constants'
 
 class ViewModel extends Observable
-  constructor: (@socket, ownPlayerId) ->
+  constructor: (@socket) ->
     super()
-    @storage = new ViewModelStorage ownPlayerId
+    @storage = new ViewModelStorage
     @changed()
 
   changed: ->
@@ -32,26 +31,6 @@ class ViewModel extends Observable
     observer.registerOn @, updateId
 
   notify: (dataId) ->
-    if constants.SimpleDataIds.includes dataId
-      @notifyObservers dataId
-      return
-
-    if dataId.startsWith 'card'
-      cardId = parseInt(dataId.substr 'card'.length)
-      @notifyObservers 'card', cardId
-      return
-
-    if @playeredDataId = constants.PlayeredDataIds.filter((idStart) -> dataId.startsWith idStart)[0]
-      playerId = parseInt(dataId.substr @playeredDataId.length)
-      @notifyObservers @playeredDataId, playerId
-
-      if playerId is @getData().self.id
-        @notifyObservers "own-#{@playeredDataId}", playerId
-      else
-        @notifyObservers "opponent-#{@playeredDataId}", playerId
-      return
-
-    console.log 'Unknown dataId: ' + dataId
-
+    @notifyObservers dataId
 
 module.exports = ViewModel
