@@ -11,7 +11,7 @@ class Observable
   # @param observer the object to get notified
   # @param notification the object to send as a notification
   # @param aspects the changes to listen to, or undefined to listen to all
-  attachObserver: (observer, notification, aspects) ->
+  attachObserver: (observer, notification, aspects...) ->
     @observers.push
       observer: observer
       notification: notification
@@ -24,6 +24,7 @@ class Observable
       index++
       if obs.observer is observer
         return @observers.splice index, 1
+    return
 
   isObservedBy: (observer) ->
     for obs in @observers
@@ -36,7 +37,10 @@ class Observable
   notifyObservers: (aspect, data) ->
     for obs in @observers
       if not aspect? or not obs.aspects? or obs.aspects.includes aspect
-        obs.observer.update obs.notification, aspect, data
+        func = obs.observer
+        unless typeof func is 'function'
+          func = func.update
+        func obs.notification, aspect, data
     return
 
 

@@ -9,12 +9,16 @@ class ViewModelSocket
   constructor: (@game, @presenter, @eventHandler) ->
     @clients = []
     @game.attachObserver @, 'gameStart', 'started'
+    @game.attachObserver @, 'dataUpdate', 'dataUpdate'
 
   update: (notification, aspect, data) ->
     if notification is 'gameStart'
       return @launchGame()
 
-    @sendUpdateToClients notification
+    if notification is 'dataUpdate'
+      return @sendUpdateToClients data
+
+    console.error "Unknown notification: #{notification}"
 
   # part of the official interface
   init: (newClient) ->

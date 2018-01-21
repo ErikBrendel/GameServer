@@ -6,4 +6,4 @@ module.exports =
   description: "Who can click faster?"
   minPlayers: 2
   maxPlayers: 2
-  newInstance: -> new CounterGame()
+  newInstance: (dataChanged) -> new CounterGame dataChanged

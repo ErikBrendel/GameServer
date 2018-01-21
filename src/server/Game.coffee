@@ -9,7 +9,10 @@ class Game extends Observable
   constructor: (@gameTypeName, @gameType, @description) ->
     super()
     @players = []
-    @game = @gameType.newInstance()
+    @game = @gameType.newInstance @dataChanged
+
+  dataChanged: (dataId) =>
+    @notifyObservers 'updateData', dataId
 
   join: (playerName, ws) ->
     return undefined if @players.length >= @gameType.maxPlayers
@@ -39,5 +42,8 @@ class Game extends Observable
       .length
     if readyPlayerCount is @players.length and readyPlayerCount >= @gameType.minPlayers
       @game.start()
+      @notifyObservers 'gameStart'
+
+
 
 module.exports = Game

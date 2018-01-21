@@ -2,6 +2,6 @@ class CounterPlayer
   constructor: (@game, @name, @sign) ->
 
   count: ->
-    @game.counterValue += @sign
+    @game.changeCounterValue @sign
 
 module.exports = CounterPlayer

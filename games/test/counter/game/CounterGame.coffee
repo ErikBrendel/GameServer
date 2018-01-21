@@ -4,7 +4,7 @@ CounterPresenter = require './CounterPresenter'
 CounterEventHandler = require './CounterEventHandler'
 
 class CounterGame
-  constructor: ->
+  constructor: (@dataChanged) ->
     @counterValue = 0
     @playersJoined = 0
     @running = false
@@ -21,5 +21,11 @@ class CounterGame
 
   start: ->
     @running = true
+
+  #----
+
+  changeCounterValue: (sign) ->
+    @counterValue += sign
+    @dataChanged 'counter_value'
 
 module.exports = CounterGame
